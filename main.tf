@@ -1,13 +1,13 @@
 resource "aws_launch_template" "naheemah_ha_lt" {
-    name_prefix = "naheemah-ha-"
-    image_id = var.ami
-    instance_type   = var.instance_type
-    network_interfaces {
-      associate_public_ip_address = true
-      security_groups = [ aws_security_group.naheemah_ha_sg.id ]
-    }
-    user_data = filebase64("userdata.sh")
-    key_name = var.key_name
+  name_prefix   = "naheemah-ha-"
+  image_id      = var.ami
+  instance_type = var.instance_type
+  network_interfaces {
+    associate_public_ip_address = true
+    security_groups             = [aws_security_group.naheemah_ha_sg.id]
+  }
+  user_data = filebase64("userdata.sh")
+  key_name  = var.key_name
 }
 
 resource "aws_autoscaling_group" "naheemah_ha_asg" {

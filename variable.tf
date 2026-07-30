@@ -19,7 +19,7 @@ variable "vpc_id" {
 variable "key_name" {
   description = "key pair name use for SSH access"
   type        = string
-  default     = "Ajay_dev"
+  default     = "Ajay_devs"
 }
 
 variable "subnet_ids" {
