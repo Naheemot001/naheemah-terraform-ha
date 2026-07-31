@@ -32,3 +32,8 @@ resource "aws_autoscaling_group" "naheemah_ha_asg" {
   }
 }
 
+resource "aws_autoscaling_attachment" "naheemah_asg_attachment" {
+  autoscaling_group_name = aws_autoscaling_group.naheemah_ha_asg.name
+  lb_target_group_arn = aws_lb_target_group.naheemah_lb_target_group.arn
+}
+
