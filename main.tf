@@ -8,6 +8,9 @@ resource "aws_launch_template" "naheemah_ha_lt" {
   }
   user_data = filebase64("userdata.sh")
   key_name  = var.key_name
+  iam_instance_profile {
+    name = aws_iam_instance_profile.naheemah_instance_profile.id
+  }
 }
 
 resource "aws_autoscaling_group" "naheemah_ha_asg" {
@@ -21,10 +24,9 @@ resource "aws_autoscaling_group" "naheemah_ha_asg" {
     id      = aws_launch_template.naheemah_ha_lt.id
     version = "$Latest"
   }
-
-
-  health_check_type         = "EC2"
+  health_check_type         = "ELB"
   health_check_grace_period = 300
+  target_group_arns         = [aws_lb_target_group.naheemah_lb_target_group.arn]
   tag {
     key                 = "Name"
     value               = "naheemah-ha"
@@ -34,6 +36,6 @@ resource "aws_autoscaling_group" "naheemah_ha_asg" {
 
 resource "aws_autoscaling_attachment" "naheemah_asg_attachment" {
   autoscaling_group_name = aws_autoscaling_group.naheemah_ha_asg.name
-  lb_target_group_arn = aws_lb_target_group.naheemah_lb_target_group.arn
+  lb_target_group_arn    = aws_lb_target_group.naheemah_lb_target_group.arn
 }
 
