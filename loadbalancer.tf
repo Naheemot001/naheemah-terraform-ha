@@ -24,10 +24,22 @@ resource "aws_lb_target_group" "naheemah_lb_target_group" {
   }
 
 }
-resource "aws_lb_listener" "naheemah_lb_listener" {
+resource "aws_lb_listener" "naheemah_lb_listener_http" {
   load_balancer_arn = aws_lb.naheemah_ha_lb.arn
   port              = 80
   protocol          = "HTTP"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.naheemah_lb_target_group.arn
+  }
+
+}
+
+resource "aws_lb_listener" "naheemah_lb_listener_https" {
+  load_balancer_arn = aws_lb.naheemah_ha_lb.arn
+  port              = 443
+  protocol          = "HTTPS"
+  
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.naheemah_lb_target_group.arn
