@@ -39,15 +39,16 @@ resource "aws_lb_listener" "naheemah_lb_listener_https" {
   load_balancer_arn = aws_lb.naheemah_ha_lb.arn
   port              = 443
   protocol          = "HTTPS"
-  certificate_arn = aws_acm_certificate_validation.naheemah_cert_validation.certificate_arn
 
-depends_on = [
-  aws_acm_certificate_validation.naheemah_cert_validation
-]
+  ssl_policy      = "ELBSecurityPolicy-2016-08"
+  certificate_arn = aws_acm_certificate.naheemah_app_acm_cert.arn
 
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.naheemah_lb_target_group.arn
   }
 
+  depends_on = [
+    aws_acm_certificate_validation.naheemah_app_cert_validation
+  ]
 }

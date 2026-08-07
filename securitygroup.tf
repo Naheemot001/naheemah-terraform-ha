@@ -24,6 +24,16 @@ resource "aws_security_group_rule" "http_rule" {
   security_group_id = aws_security_group.naheemah_ha_sg.id
 }
 
+resource "aws_security_group_rule" "https_rule" {
+  type = "ingress"
+  description = "https access"
+  from_port = 443
+  to_port = 443
+  protocol = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.naheemah_ha_sg.id
+}
+
 resource "aws_security_group_rule" "outbound_rule" {
   type              = "egress"
   description       = "outbound access"
